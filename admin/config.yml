@@ -77,6 +77,8 @@ collections:
           - { label: "Nomor WhatsApp (tampilan)", name: "whatsapp_display", widget: "string" }
           - { label: "Link Instagram", name: "instagram_url", widget: "string" }
           - { label: "Link Linktree", name: "linktree_url", widget: "string" }
+          - { label: "Link GoFood — 3G Coffee 2", name: "gofood_branch2_url", widget: "string" }
+          - { label: "Link GoFood — 3G Coffee 3", name: "gofood_branch3_url", widget: "string" }
           - { label: "Deskripsi Hero", name: "hero_desc", widget: "text" }
           - label: "Jadwal Live Music"
             name: "live_music"
