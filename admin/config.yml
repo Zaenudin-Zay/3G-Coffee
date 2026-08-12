@@ -30,6 +30,23 @@ collections:
               - { label: "Harga (contoh: 25K atau 27,5K)", name: "price", widget: "string" }
               - { label: "Foto Menu", name: "image", widget: "image" }
 
+  - name: "promos"
+    label: "Promo / Slideshow"
+    files:
+      - file: "content/promos.json"
+        label: "Daftar Slide Promo"
+        name: "promos"
+        fields:
+          - label: "Slides"
+            name: "slides"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - { label: "Foto (rasio 16:9 disarankan)", name: "image", widget: "image" }
+              - { label: "Judul", name: "title", widget: "string" }
+              - { label: "Deskripsi Singkat", name: "desc", widget: "string" }
+              - { label: "Link saat diklik (opsional, contoh link WA/IG)", name: "link", widget: "string", required: false }
+
   - name: "branches"
     label: "Cabang"
     files:
