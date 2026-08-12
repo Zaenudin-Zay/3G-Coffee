@@ -1,0 +1,20 @@
+{
+  "branches": [
+    {
+      "tag": "CABANG 1 & 2",
+      "name": "3G Coffee — Sunan Giri",
+      "address": "Jl. Sunan Giri, Komplek Bangun Resta, Karang Tengah, Tangerang",
+      "hours_weekday": "14.00–24.00",
+      "hours_weekend": "15.00–01.00",
+      "maps_url": "https://maps.app.goo.gl/z6ZNr2qzXu88yELv8"
+    },
+    {
+      "tag": "CABANG 3",
+      "name": "3G Coffee — Raden Saleh",
+      "address": "Jl. Raden Saleh, Karang Tengah, Ciledug, Tangerang",
+      "hours_weekday": "14.00–24.00",
+      "hours_weekend": "15.00–01.00",
+      "maps_url": "https://maps.app.goo.gl/DRhEKsoA5Dp1Pnv39"
+    }
+  ]
+}

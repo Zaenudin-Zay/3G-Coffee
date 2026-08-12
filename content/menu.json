@@ -1,0 +1,16 @@
+{
+  "items": [
+    { "category": "minuman", "name": "Salted Caramel Latte", "desc": "Espresso, susu creamy, salted caramel manis gurih", "price": "30K", "image": "/images/salted_caramel.jpg" },
+    { "category": "minuman", "name": "Dark Chocolate", "desc": "Cokelat hitam pilihan, pekat & lembut", "price": "30K", "image": "/images/dark_chocolate.jpg" },
+    { "category": "minuman", "name": "Chocholate", "desc": "Cokelat klasik, kaya rasa & hangat di tegukan", "price": "30K", "image": "/images/chocholate.jpg" },
+    { "category": "minuman", "name": "Cookies & Cream Oreo", "desc": "Krim lembut, biskuit oreo renyah, segar", "price": "30K", "image": "/images/cookies_cream.jpg" },
+    { "category": "minuman", "name": "Lychee Tea", "desc": "Teh berkualitas, rasa leci segar & manis alami", "price": "25,5K", "image": "/images/lychee_tea.jpg" },
+    { "category": "berat", "name": "Nasi Kulit Daun Jeruk", "desc": "Nasi hangat, kulit ayam crispy, sambal daun jeruk", "price": "18K", "image": "/images/nasi_kulit.jpg" },
+    { "category": "berat", "name": "Nasi Daun Jeruk Ayam Bawang Putih", "desc": "Nasi wangi daun jeruk, ayam bawang putih gurih, sambal pedas", "price": "25K", "image": "/images/nasi_daun_jeruk.jpg" },
+    { "category": "snack", "name": "Mix Platter", "desc": "Kombinasi gorengan & kentang, saus pilihan", "price": "27,5K", "image": "/images/mix_platter.jpg" },
+    { "category": "snack", "name": "Chicken Strip", "desc": "Crispy, disajikan dengan coleslaw & saus", "price": "24,5K", "image": "/images/chicken_strip.jpg" },
+    { "category": "snack", "name": "Shrimp Roll", "desc": "Gulungan udang crispy, coleslaw, saus asam manis", "price": "16,5K", "image": "/images/shrimp_roll.jpg" },
+    { "category": "snack", "name": "Choco Muffin", "desc": "Lembut, moist, cokelatnya juara", "price": "17K", "image": "/images/choco_muffin.jpg" },
+    { "category": "snack", "name": "Sweet Donuts", "desc": "Lembut & manis, teman ngopi teman santai", "price": "9K", "image": "/images/donuts.jpg" }
+  ]
+}

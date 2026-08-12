@@ -1,0 +1,71 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+locale: "en"
+
+collections:
+  - name: "menu"
+    label: "Menu"
+    files:
+      - file: "content/menu.json"
+        label: "Daftar Menu"
+        name: "menu"
+        fields:
+          - label: "Menu Items"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.price}}"
+            fields:
+              - { label: "Kategori", name: "category", widget: "select", options: [
+                  { label: "Minuman", value: "minuman" },
+                  { label: "Makanan Berat", value: "berat" },
+                  { label: "Snack & Dessert", value: "snack" }
+                ] }
+              - { label: "Nama Menu", name: "name", widget: "string" }
+              - { label: "Deskripsi Singkat", name: "desc", widget: "string" }
+              - { label: "Harga (contoh: 25K atau 27,5K)", name: "price", widget: "string" }
+              - { label: "Foto Menu", name: "image", widget: "image" }
+
+  - name: "branches"
+    label: "Cabang"
+    files:
+      - file: "content/branches.json"
+        label: "Daftar Cabang"
+        name: "branches"
+        fields:
+          - label: "Cabang"
+            name: "branches"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Label (contoh: CABANG 1 & 2)", name: "tag", widget: "string" }
+              - { label: "Nama Cabang", name: "name", widget: "string" }
+              - { label: "Alamat", name: "address", widget: "text" }
+              - { label: "Jam Senin–Jumat", name: "hours_weekday", widget: "string" }
+              - { label: "Jam Sabtu–Minggu", name: "hours_weekend", widget: "string" }
+              - { label: "Link Google Maps", name: "maps_url", widget: "string" }
+
+  - name: "settings"
+    label: "Pengaturan Umum"
+    files:
+      - file: "content/settings.json"
+        label: "Pengaturan Situs"
+        name: "settings"
+        fields:
+          - { label: "Nomor WhatsApp (format 62xxxx)", name: "whatsapp_number", widget: "string" }
+          - { label: "Nomor WhatsApp (tampilan)", name: "whatsapp_display", widget: "string" }
+          - { label: "Link Instagram", name: "instagram_url", widget: "string" }
+          - { label: "Link Linktree", name: "linktree_url", widget: "string" }
+          - { label: "Deskripsi Hero", name: "hero_desc", widget: "text" }
+          - label: "Jadwal Live Music"
+            name: "live_music"
+            widget: "list"
+            summary: "{{fields.day}} — {{fields.note}}"
+            fields:
+              - { label: "Hari", name: "day", widget: "string" }
+              - { label: "Catatan", name: "note", widget: "string" }
+              - { label: "Level sinyal (1-4)", name: "bars", widget: "number", min: 1, max: 4 }
