@@ -4,18 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>3G Coffee — Glory Good Grade Coffee</title>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", (user) => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,480;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
@@ -70,6 +58,36 @@
   .bars.on-dark i{ background:var(--clay-soft); }
 
   .torn{ width:100%; height:26px; display:block; margin-top:-1px; }
+
+  /* ---------- PROMO SLIDESHOW ---------- */
+  .promo-section{ background:var(--paper); padding-top:44px; padding-bottom:8px; }
+  .promo-carousel{
+    position:relative; width:100%; aspect-ratio:16/9; border-radius:var(--radius);
+    overflow:hidden; margin-top:18px; background:var(--cream-100);
+    touch-action: pan-y;
+  }
+  .promo-track{ display:flex; height:100%; transition: transform 0.45s cubic-bezier(.4,0,.2,1); }
+  .promo-slide{ flex:0 0 100%; height:100%; position:relative; }
+  .promo-slide img{ width:100%; height:100%; object-fit:cover; }
+  .promo-slide .promo-caption{
+    position:absolute; left:0; right:0; bottom:0; padding:16px 18px 14px;
+    background:linear-gradient(0deg, rgba(20,12,7,0.72) 0%, rgba(20,12,7,0.15) 70%, transparent 100%);
+    color:var(--paper);
+  }
+  .promo-slide .promo-caption a{ display:block; }
+  .promo-title{ font-family:var(--display); font-size:17px; font-weight:600; line-height:1.2; }
+  .promo-desc{ font-family:var(--mono); font-size:10.5px; color:var(--clay-soft); margin-top:4px; letter-spacing:0.02em; }
+  .promo-arrow{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+    width:32px; height:32px; border-radius:50%; border:none;
+    background:rgba(20,12,7,0.45); color:var(--paper); font-size:16px;
+    display:flex; align-items:center; justify-content:center; backdrop-filter:blur(3px);
+  }
+  .promo-arrow.prev{ left:10px; } .promo-arrow.next{ right:10px; }
+  .promo-dots{ position:absolute; bottom:10px; right:14px; display:flex; gap:5px; z-index:5; }
+  .promo-dots .dot{ width:6px; height:6px; border-radius:50%; background:rgba(251,245,232,0.45); transition:0.25s; }
+  .promo-dots .dot.active{ background:var(--paper); width:16px; border-radius:4px; }
+  .promo-empty{ display:none; }
 
   .about{ background:var(--paper); }
   .about p{color:var(--espresso-700); font-size:14.5px; line-height:1.75; margin-top:14px;}
@@ -166,6 +184,16 @@
     <svg class="torn" viewBox="0 0 400 26" preserveAspectRatio="none">
       <path d="M0,10 L15,4 L30,12 L45,2 L60,14 L75,6 L90,16 L105,4 L120,12 L135,2 L150,14 L165,6 L180,16 L195,4 L210,12 L225,2 L240,14 L255,6 L270,16 L285,4 L300,12 L315,2 L330,14 L345,6 L360,16 L375,4 L390,12 L400,8 L400,26 L0,26 Z" fill="#FCF8EF"/>
     </svg>
+  </section>
+
+  <section class="promo-section" id="promo">
+    <div class="eyebrow">Promo &amp; Info Terbaru</div>
+    <div class="promo-carousel" id="promo-carousel">
+      <div class="promo-track" id="promo-track"></div>
+      <button class="promo-arrow prev" id="promo-prev" aria-label="Sebelumnya">‹</button>
+      <button class="promo-arrow next" id="promo-next" aria-label="Berikutnya">›</button>
+      <div class="promo-dots" id="promo-dots"></div>
+    </div>
   </section>
 
   <section class="about">
@@ -271,6 +299,74 @@
       });
     }
 
+    function setupPromoCarousel(slides){
+      const section = document.getElementById('promo');
+      const track = document.getElementById('promo-track');
+      const dotsWrap = document.getElementById('promo-dots');
+      const prevBtn = document.getElementById('promo-prev');
+      const nextBtn = document.getElementById('promo-next');
+
+      if (!slides || !slides.length){ section.style.display = 'none'; return; }
+
+      let current = 0;
+      let autoTimer = null;
+      const AUTO_MS = 4500;
+
+      track.innerHTML = slides.map(s => `
+        <div class="promo-slide">
+          ${s.link ? `<a href="${s.link}" target="_blank" rel="noopener">` : ''}
+          <img src="${s.image}" alt="${s.title || 'Promo'}" loading="lazy">
+          <div class="promo-caption">
+            ${s.title ? `<div class="promo-title">${s.title}</div>` : ''}
+            ${s.desc ? `<div class="promo-desc">${s.desc}</div>` : ''}
+          </div>
+          ${s.link ? `</a>` : ''}
+        </div>
+      `).join('');
+
+      dotsWrap.innerHTML = slides.map((_, i) => `<span class="dot${i===0?' active':''}" data-i="${i}"></span>`).join('');
+      const dots = [...dotsWrap.querySelectorAll('.dot')];
+
+      function goTo(i){
+        current = (i + slides.length) % slides.length;
+        track.style.transform = `translateX(-${current * 100}%)`;
+        dots.forEach((d, idx) => d.classList.toggle('active', idx === current));
+      }
+      function next(){ goTo(current + 1); }
+      function prev(){ goTo(current - 1); }
+
+      function startAuto(){ stopAuto(); if (slides.length > 1) autoTimer = setInterval(next, AUTO_MS); }
+      function stopAuto(){ if (autoTimer) clearInterval(autoTimer); }
+      function restartAuto(){ startAuto(); }
+
+      if (slides.length > 1){
+        prevBtn.addEventListener('click', ()=>{ prev(); restartAuto(); });
+        nextBtn.addEventListener('click', ()=>{ next(); restartAuto(); });
+        dots.forEach(d => d.addEventListener('click', ()=>{ goTo(parseInt(d.dataset.i)); restartAuto(); }));
+      } else {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+      }
+
+      // touch / swipe support
+      let startX = 0, deltaX = 0, dragging = false;
+      const carousel = document.getElementById('promo-carousel');
+      carousel.addEventListener('touchstart', (e)=>{
+        dragging = true; startX = e.touches[0].clientX; deltaX = 0; stopAuto();
+      }, {passive:true});
+      carousel.addEventListener('touchmove', (e)=>{
+        if (!dragging) return; deltaX = e.touches[0].clientX - startX;
+      }, {passive:true});
+      carousel.addEventListener('touchend', ()=>{
+        if (!dragging) return; dragging = false;
+        if (deltaX > 40) prev(); else if (deltaX < -40) next();
+        restartAuto();
+      });
+
+      goTo(0);
+      startAuto();
+    }
+
     function renderBranches(branches){
       const wrap = document.getElementById('branch-list');
       wrap.innerHTML = branches.map(b => `
@@ -321,15 +417,17 @@
     async function boot(){
       setupTabs();
       try {
-        const [menuRes, branchRes, settingsRes] = await Promise.all([
+        const [menuRes, branchRes, settingsRes, promoRes] = await Promise.all([
           fetch('/content/menu.json').then(r => r.json()),
           fetch('/content/branches.json').then(r => r.json()),
           fetch('/content/settings.json').then(r => r.json()),
+          fetch('/content/promos.json').then(r => r.ok ? r.json() : { slides: [] }).catch(() => ({ slides: [] })),
         ]);
         MENU_ITEMS = menuRes.items || [];
         renderMenu();
         renderBranches(branchRes.branches || []);
         applySettings(settingsRes);
+        setupPromoCarousel(promoRes.slides || []);
       } catch (err) {
         console.error('Gagal memuat data situs:', err);
         document.getElementById('menu-list').innerHTML = '<div class="menu-empty">Gagal memuat menu. Coba refresh halaman.</div>';
